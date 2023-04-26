@@ -11,14 +11,14 @@ export type AuthContextType = {
     logout: () => void;
   };
 
-//   export interface Message {
-//     id: string;
-//     timestamp: string;
-//     userId: string;
-//     displayName: string;
-//     photoURL: string;
-//     message: string;
-//   };
+  export interface UserProfile {
+    id: string;
+    age: number;
+    displayName: string;
+    occupation: string;
+    photoURL: string;
+    timestamp: string;
+  };
 
 //   export interface Chat {
 //     id: string;
