@@ -1,5 +1,4 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React from 'react';
 import { AuthProvider } from './hooks/useAuth';
 import StackNavigator from './navigators/StackNavigator';
 import { LogBox } from 'react-native';
@@ -8,9 +7,8 @@ LogBox.ignoreLogs(['AsyncStorage has been extracted from react-native core and w
 export default function App() {
   return (
     <NavigationContainer>
-      {/* HOC - Higher Order Component */}
+      {/* HOC - Higher Order Component, passes auth to children */}
       <AuthProvider>
-        {/* Passes down auth to children */}
         <StackNavigator/>
       </AuthProvider>
     </NavigationContainer>
