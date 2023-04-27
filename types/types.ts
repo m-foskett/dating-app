@@ -20,6 +20,16 @@ export type AuthContextType = {
     timestamp: string;
   };
 
+  export interface Match {
+    id: string;
+    timestamp: number;
+    usersMatched: string[];
+    users: {
+      user1: UserProfile;
+      user2: UserProfile;
+    }
+  };
+
 //   export interface Chat {
 //     id: string;
 //     chatName: string;
