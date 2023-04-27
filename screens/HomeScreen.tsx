@@ -75,12 +75,12 @@ const HomeScreen = () => {
                 snapshot => {
                     setProfiles(snapshot.docs.filter(doc => doc.id !== userUID).map(doc => ({
                         id: doc.id,
-                        displayName: doc.get('userName'),
-                        photoURL: doc.get('image'),
+                        displayName: doc.get('displayName'),
+                        photoURL: doc.get('photoURL'),
                         occupation: doc.get('occupation'),
                         age: doc.get('age'),
                         timestamp: doc.get('timestamp'),
-                        }))
+                        } as UserProfile))
                     );
                 }
             );
@@ -138,8 +138,8 @@ const HomeScreen = () => {
     };
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     return (
-        // Root Container
-        <SafeAreaView className='flex-1 mt-7'>
+        // Base Container
+        <SafeAreaView className='flex-1 mt-7 bg-primary-50'>
             {/* Header */}
             <View className='flex-row items-center justify-between px-5'>
                 {/* Logout Button */}
@@ -152,13 +152,14 @@ const HomeScreen = () => {
                 {/* Update Profile Modal */}
                 <TouchableOpacity onPress={() => navigation.navigate('Modal')}>
                     <Image
-                        className='h-14 w-14'
-                        source={require("../assets/bp_logo.png")}
+                        className='h-20 w-52'
+                        resizeMode='contain'
+                        source={require("../assets/placeholder_logo.jpg")}
                     />
                 </TouchableOpacity>
                 {/* Navigate to Chat Screen Button */}
                 <TouchableOpacity onPress={() => navigation.navigate("Chat")}>
-                    <ChatBubbleLeftRightIcon color="black" size={40}/>
+                    <ChatBubbleLeftRightIcon color={colours.primary[950]} size={40}/>
                 </TouchableOpacity>
             </View>
             {/* Deck Swiper */}
@@ -201,25 +202,25 @@ const HomeScreen = () => {
                     }}
                     renderCard={(card) => card ? (
                         // Render Profile Cards
-                        <View>
-                            <View key={card.id} className='relative bg-white h-3/4 rounded-xl' >
-                                <Image className='absolute top-0 h-full w-full rounded-xl' source={{uri: card.photoURL}} />
+                        <View className='bg-primary-100'>
+                            <View key={card.id} className='items-center justify-center relative bg-primary-200 h-3/4 rounded-xl' >
+                                <Image className=' h-[95%] w-[95%] rounded-xl' source={{uri: card.photoURL}} />
                             </View>
                             <View
                                 style={styles.cardShadow}
-                                className='absolute bottom-0 bg-white w-full h-20 justify-between items-center flex-row px-6 py-2 rounded-b-xl'
+                                className='absolute bottom-0 bg-primary-200 w-full h-20 justify-between items-center flex-row px-6 py-2 rounded-b-xl'
                             >
-                                <View>
-                                    <Text className='text-xl font-bold'>{card.displayName}</Text>
-                                    <Text>{card.occupation}</Text>
+                                <View className='flex-1 justify-evenly'>
+                                    <Text className='text-primary-800 text-2xl font-bold'>{card.displayName}</Text>
+                                    <Text className='text-primary-800 text-lg font-bold'>{card.occupation}</Text>
                                 </View>
-                                <Text className='text-2xl font-bold'>{card.age}</Text>
+                                <Text className='text-primary-800 text-2xl font-bold'>{card.age}</Text>
                             </View>
                         </View>
                     ): (
                         // Out of Profiles Card
-                        <View style={styles.cardShadow} className='relative bg-white h-3/4 rounded-xl justify-center items-center' >
-                            <Text className='font-bold pb-5'>Out of Profiles</Text>
+                        <View style={styles.cardShadow} className='relative bg-primary-100 h-3/4 rounded-xl justify-center items-center' >
+                            <Text className='text-primary-950 font-bold pb-5'>Out of Profiles</Text>
                             <Image
                                 className='h-20 w-28'
                                 source={require("../assets/feelsbadman.png")}
@@ -235,7 +236,7 @@ const HomeScreen = () => {
                     onPress={() => swipeRef.current.swipeLeft()}
                     className='items-center justify-center rounded-full w-16 h-16 bg-red-300'
                 >
-                    <XMarkIcon color={colours.red} size={24} />
+                    <XMarkIcon color={colours.primary[600]} size={24} />
                 </TouchableOpacity>
                 {/* Yeah Alternative Button */}
                 <TouchableOpacity
