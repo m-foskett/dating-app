@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TextInput, Button, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, FlatList } from 'react-native'
+import { View, SafeAreaView, TextInput, Button, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 import getMatchedUserInfo from '../lib/getMatchedUserInfo'
@@ -9,13 +9,20 @@ import SenderMessage from '../components/SenderMessage'
 import ReceiverMessage from '../components/ReceiverMessage'
 import { addDoc, collection, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore'
 import { db } from '../firebase'
+import { RootStackScreenProps } from '../types/navigationTypes'
 
 const MessageScreen = () => {
-    const {userUID, userName } = useAuth();
-    const {params} = useRoute();
-    const { matchDetails } = params;
-    const [input, setInput] = useState("");
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // State Variables
+    const [input, setInput] = useState<string>("");
     const [messages, setMessages] = useState([]);
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Custom Hook: useAuth()
+    const { userName, userPhoto, userUID, } = useAuth();
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // Route Params
+    const { params: { matchDetails }} = useRoute<RootStackScreenProps<'Message'>['route']>();
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     useEffect(() =>
         onSnapshot(
@@ -48,7 +55,7 @@ const MessageScreen = () => {
 
     return (
         <SafeAreaView className='mt-7 flex-1'>
-            <Header callEnabled title={getMatchedUserInfo(matchDetails.users, userUID).displayName} />
+            <Header callEnabled title={getMatchedUserInfo(matchDetails, userUID).displayName} />
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 className='flex-1'
@@ -57,7 +64,7 @@ const MessageScreen = () => {
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <FlatList
                         data={messages}
-                        inverted={-1}
+                        inverted={true}
                         className='pl-4'
                         keyExtractor={item => item.id}
                         renderItem={({item: message}) =>
@@ -78,7 +85,7 @@ const MessageScreen = () => {
                         onSubmitEditing={sendMessage}
                         value={input}
                     />
-                    <Button onPress={sendMessage} title='Send' color={colours.red} />
+                    <Button onPress={sendMessage} title='Send' color={colours.primary[400]} />
                 </View>
             </KeyboardAvoidingView>
         </SafeAreaView>

@@ -5,11 +5,12 @@ import { db } from '../firebase';
 import useAuth from '../hooks/useAuth';
 import ChatRow from './ChatRow';
 import colours from '../config/colours';
+import { Match } from '../types/types';
 
 const ChatList = () => {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // State Variables
-    const [matches, setMatches] = useState([]);
+    const [matches, setMatches] = useState<Match[]>([]);
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Custom Hook: useAuth()
     const { userUID } = useAuth();
@@ -25,14 +26,18 @@ const ChatList = () => {
                 setMatches(
                     snapshot.docs.map(doc => ({
                         id: doc.id,
-                        ...doc.data(),
+                        users: doc.get('users'),
+                        usersMatched: doc.get('usersMatched'),
+                        timestamp: doc.get('timestamp'),
                     }))
                 )
         ),
         [userUID]
     );
-
-    return matches.length > 0 ? (
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    return matches.length > 0 ?
+        (
+            // List of Chats
             <FlatList
                 data={matches}
                 keyExtractor={item => item.id}
@@ -40,10 +45,12 @@ const ChatList = () => {
                 style={{backgroundColor: colours.primary[50]}}
             />
         ) : (
+            // No Matches Yet!
             <View className='p-5'>
                 <Text className=' text-primary-950 text-center text-lg'>No matches yet!</Text>
             </View>
         );
-}
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+};
 
 export default ChatList
