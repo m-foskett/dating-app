@@ -1,17 +1,17 @@
-import { View, Text, Image } from 'react-native'
-import React from 'react'
+import { View, Text } from 'react-native';
+import React from 'react';
+import { Message } from '../types/types';
 
-const ReceiverMessage = ({ message }) => {
+interface ReceiverMessageProps {
+  message: Message;
+}
+
+const ReceiverMessage = ({ message }: ReceiverMessageProps) => {
   return (
-    <View
-        className='bg-red-400 rounded-lg rounded-tl-none px-5 py-3 mx-3 my-2 ml-14'
-        style={{alignSelf: 'flex-start',}}
-    >
-        <Image
-            className='h-12 w-12 rounded-full absolute top-0 -left-14'
-            source={{uri: message.photoURL}}
-        />
-        <Text className='text-white'>{message.message}</Text>
+    <View className="flex-row justify-start">
+      <View className="flex-shrink-1 relative bg-primary-400 rounded-lg rounded-tl-none px-4 py-2 my-2 mx-1">
+        <Text className='text-white'>{message?.message}</Text>
+      </View>
     </View>
   )
 }

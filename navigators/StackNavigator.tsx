@@ -7,7 +7,6 @@ import LoginScreen from '../screens/LoginScreen';
 import ModalScreen from '../screens/ModalScreen';
 import MatchScreen from '../screens/MatchScreen';
 import MessageScreen from '../screens/MessageScreen';
-import colours from '../config/colours';
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Initialise the Root Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -15,10 +14,6 @@ const Stack = createNativeStackNavigator();
 // Global Screen Options
 const globalScreenOptions: NativeStackNavigationOptions = {
   headerShown: false,
-  // headerStyle: { backgroundColor: colours.primary[500]},
-  // headerTitleStyle: { color: colours.primary[950]},
-  // headerTintColor: colours.primary[950],
-  // headerTitleAlign: 'center',
 };
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //   Create Stack Navigator Wrapper
