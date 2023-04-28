@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import { ChevronLeftIcon, PhoneArrowUpRightIcon } from 'react-native-heroicons/solid'
 import { useNavigation } from '@react-navigation/native'
@@ -7,9 +7,11 @@ import colours from '../config/colours'
 interface HeaderProps {
   title: string;
   callEnabled: boolean;
+  pictureEnabled?: boolean;
+  picture?: string;
 }
 
-const Header = ({ title, callEnabled }: HeaderProps) => {
+const Header = ({ title, callEnabled, pictureEnabled, picture }: HeaderProps) => {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // Navigation Prop
     const navigation = useNavigation();
@@ -22,8 +24,12 @@ const Header = ({ title, callEnabled }: HeaderProps) => {
           <TouchableOpacity onPress={() => navigation.goBack()} className="p-2">
               <ChevronLeftIcon size={34} color={colours.primary[400]}/>
           </TouchableOpacity>
+          {/* Picture */}
+          {pictureEnabled && (
+            <Image className='h-10 w-10 rounded-full' source={{uri: picture}} />
+          )}
           {/* Header Title */}
-          <Text className='text-primary-950 text-2xl font-bold pl-2'>{title}</Text>
+          <Text className='text-primary-950 text-2xl font-bold pl-3'>{title}</Text>
         </View>
         {/* Call Button */}
         {callEnabled && (

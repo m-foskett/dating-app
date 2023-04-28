@@ -10,33 +10,6 @@ import { db } from '../firebase';
 import generateId from '../lib/generateId';
 import { UserProfile } from '../types/types';
 
-const DUMMY_DATA = [
-    {
-        firstName: "Bob",
-        lastName: "Bobson",
-        occupation: "Software Developer",
-        photoURL: require("../assets/jorji.jpg"),
-        age: 55,
-        id: 123,
-    },
-    {
-        firstName: "Becky",
-        lastName: "Becker",
-        occupation: "Personal Assistant",
-        photoURL: require("../assets/becky.jpg"),
-        age: 25,
-        id: 456,
-    },
-    {
-        firstName: "Stacy",
-        lastName: "Smith",
-        occupation: "Influencer",
-        photoURL: require("../assets/stacy.jpg"),
-        age: 21,
-        id: 789,
-    },
-];
-
 const HomeScreen = () => {
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // State Variables
@@ -95,7 +68,6 @@ const HomeScreen = () => {
         if (!profiles[cardIndex]) return;
         // Get all relevant user data
         const userSwiped = profiles[cardIndex];
-        console.log(`You passed on ${userSwiped.displayName}`);
         // Set the user's info inside the 'passes' collection
         setDoc(doc(db, 'users', userUID, 'passes', userSwiped.id), userSwiped);
     }
@@ -117,7 +89,6 @@ const HomeScreen = () => {
                     // Set the user's info inside the 'likes' collection
                     setDoc(doc(db, 'users', userUID, 'likes', userSwiped.id), userSwiped);
                     // User has also liked you
-                    console.log(`You have matched with ${userSwiped.displayName}!`);
                     // Create a MATCH
                     setDoc(doc(db, 'matches', generateId(userUID, userSwiped.id)), {
                         users: {
@@ -130,7 +101,6 @@ const HomeScreen = () => {
                     navigation.navigate('Match', {loggedInProfile, userSwiped});
                 } else {
                     // Logged-In user has liked (creating first interaction) or Liked User did not like Logged-In user
-                    console.log(`You liked ${userSwiped.displayName}`);
                     // Set the user's info inside the 'likes' collection
                     setDoc(doc(db, 'users', userUID, 'likes', userSwiped.id), userSwiped);
                 }
@@ -173,11 +143,9 @@ const HomeScreen = () => {
                     animateCardOpacity
                     verticalSwipe={false}
                     onSwipedLeft={(cardIndex) => {
-                        console.log('NOPED')
                         swipeLeft(cardIndex);
                     }}
                     onSwipedRight={(cardIndex) => {
-                        console.log("YEP'D")
                         swipeRight(cardIndex);
                     }}
                     overlayLabels={{
